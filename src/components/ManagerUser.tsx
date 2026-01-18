@@ -179,24 +179,6 @@ export const ManagerUser = () => {
 
                         <div className="space-y-4">
                             <Input
-                                placeholder="Digite a senha"
-                                value={is_new_user ? post_user.password : update_user.password}
-                                onChange={(e) => is_new_user ?
-                                    set_post_user((prev) => ({
-                                        ...prev,
-                                        password: e.target.value
-                                    }))
-                                    :
-                                    set_update_user((prev) => ({
-                                        ...prev,
-                                        password: e.target.value
-                                    }))
-                                }
-                            />
-                        </div>
-
-                        <div className="space-y-4">
-                            <Input
                                 placeholder="Digite o número de telefone"
                                 value={is_new_user ? post_user.phone : update_user.phone}
                                 onChange={(e) => is_new_user ?
@@ -208,6 +190,24 @@ export const ManagerUser = () => {
                                     set_update_user((prev) => ({
                                         ...prev,
                                         phone: e.target.value
+                                    }))
+                                }
+                            />
+                        </div>
+
+                        <div className="space-y-4">
+                            <Input
+                                placeholder="Digite a senha"
+                                value={is_new_user ? post_user.password : update_user.password}
+                                onChange={(e) => is_new_user ?
+                                    set_post_user((prev) => ({
+                                        ...prev,
+                                        password: e.target.value
+                                    }))
+                                    :
+                                    set_update_user((prev) => ({
+                                        ...prev,
+                                        password: e.target.value
                                     }))
                                 }
                             />
