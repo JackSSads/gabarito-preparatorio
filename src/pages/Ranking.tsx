@@ -64,7 +64,7 @@ export const Ranking = () => {
                   <div className="flex-1">
                     <h3 className="text-xl font-bold text-foreground mb-1">{entry.name}</h3>
                     <div className="flex gap-6 text-sm text-muted-foreground">
-                      <span>Quiz realizados: {entry.quizzes_taken}</span>
+                      <span>Perguntas respondidas: {entry.quizzes_taken}</span>
                       <span>Média: {entry.average_score}%</span>
                     </div>
                   </div>
