@@ -19,11 +19,13 @@ import {
 } from "@/components/ui/form";
 
 import { LogIn } from "lucide-react";
-import { LoginService } from "@/services/LoginService/LoginService";
+import { AuthService } from "@/services/AuthService/AuthService";
+
+import { ILogin } from "@/types/auth";
 
 const loginSchema = z.object({
   email: z.string().email("E-mail inválido"),
-  password: z.string().min(5, "Senha inválida"),
+  password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres."),
 });
 
 export const LoginCard = () => {
@@ -39,8 +41,10 @@ export const LoginCard = () => {
     },
   });
 
-  function onSubmit(data) {
-    LoginService.login(data.email, data.password)
+  function onSubmit({ email, password }: ILogin) {
+    AuthService.login({
+      email: email, password: password
+    })
       .then((result) => {
         toast({
           title: `Bem-vindo(a) ${result.name}`,
