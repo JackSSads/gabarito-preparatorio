@@ -5,4 +5,5 @@ export { Quiz } from "./Quiz";
 export { Ranking } from "./Ranking";
 export { Results } from "./Results";
 export { Login } from "./Login.tsx";
+export { Register } from "./Register.tsx";
 export { QuizConfigPage } from "./QuizConfigPage";
