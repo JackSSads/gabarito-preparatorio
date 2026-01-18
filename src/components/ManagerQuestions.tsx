@@ -126,7 +126,9 @@ export const ManagerQuestions = () => {
 
     const getAllQuestion = useCallback(() => {
         QuestionService.getAll(filter)
-            .then(setQuestion)
+            .then((result) => {
+                setQuestion(result);
+            })
             .catch((error) => {
                 toast({
                     title: "Erro",
@@ -388,7 +390,7 @@ export const ManagerQuestions = () => {
                     </div>
                 </Card>
 
-                {questions.length !== 0 && (
+                {questions.length ? (
                     <Card className="p-8 shadow-lg">
                         {/* Questões */}
                         <div className="flex flex-col gap-5">
@@ -452,7 +454,7 @@ export const ManagerQuestions = () => {
                                 )}
                         </div>
                     </Card>
-                )}
+                ) : null}
             </div>
         </TabsContent>
     );
