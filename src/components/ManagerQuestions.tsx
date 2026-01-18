@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Edit, Trash } from "lucide-react";
+import { Plus, Edit, Trash, Filter } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -323,7 +323,10 @@ export const ManagerQuestions = () => {
                 <Card className="p-8 shadow-lg">
                     {/* Filtro */}
                     <div className="flex flex-col gap-5">
-                        <h3 className="text-xl font-bold text-foreground mb-4">Filtros</h3>
+                        <h2 id="new_question_card" className="text-2xl font-bold text-foreground mb-6 flex items-center">
+                            <Filter className="mr-2 w-6 h-6 text-primary" />
+                            Filtros
+                        </h2>
 
                         <div>
                             <Label htmlFor="difficulty">Nível de Dificuldade</Label>
@@ -385,69 +388,71 @@ export const ManagerQuestions = () => {
                     </div>
                 </Card>
 
-                <Card className="p-8 shadow-lg">
-                    {/* Questões */}
-                    <div className="flex flex-col gap-5">
-                        <h3 className="text-xl font-bold text-foreground mb-4">Questões Cadastradas</h3>
-                        {questions?.map((question: IResQuestions) => (
-                            <Card className="relative p-8 shadow-lg flex flex-col gap-3" key={question.id_question}>
-                                <p className={
-                                    `   
+                {questions.length !== 0 && (
+                    <Card className="p-8 shadow-lg">
+                        {/* Questões */}
+                        <div className="flex flex-col gap-5">
+                            <h3 className="text-xl font-bold text-foreground mb-4">Questões Cadastradas</h3>
+                            {questions?.map((question: IResQuestions) => (
+                                <Card className="relative p-8 shadow-lg flex flex-col gap-3" key={question.id_question}>
+                                    <p className={
+                                        `   
                                 ${question.difficulty === "EASY" ? "bg-blue-500"
-                                        : question.difficulty === "MEDIUM" ? "bg-yellow-500"
-                                            : "bg-red-500"
-                                    }
+                                            : question.difficulty === "MEDIUM" ? "bg-yellow-500"
+                                                : "bg-red-500"
+                                        }
                                     rounded-md p-1 text-white text-center font-semibold`}>
-                                    {
-                                        question.subject === "POR" ? "Português"
-                                            : question.subject === "MAT" ? "Matemática"
-                                                : ""
-                                    }
-                                </p>
+                                        {
+                                            question.subject === "POR" ? "Português"
+                                                : question.subject === "MAT" ? "Matemática"
+                                                    : ""
+                                        }
+                                    </p>
 
-                                <p className="font-semibold text-gray-700">{question.question}</p>
+                                    <p className="font-semibold text-gray-700">{question.question}</p>
 
-                                <div className="flex flex-col">
-                                    <ul>
-                                        {question.options?.map((option, index) => (
-                                            <p key={index}>{`${index + 1}`}) {option?.answer_option}</p>
-                                        ))}
-                                    </ul>
-                                </div>
+                                    <div className="flex flex-col">
+                                        <ul>
+                                            {question.options?.map((option, index) => (
+                                                <p key={index}>{`${index + 1}`}) {option?.answer_option}</p>
+                                            ))}
+                                        </ul>
+                                    </div>
 
-                                <p className="font-semibold ">
-                                    Resposta correta: <span className="text-blue-600">{
-                                        question.options?.find(
-                                            (item) => item.id_question_options === question.correct_question_id
-                                        )?.answer_option
-                                    }</span>
-                                </p>
+                                    <p className="font-semibold ">
+                                        Resposta correta: <span className="text-blue-600">{
+                                            question.options?.find(
+                                                (item) => item.id_question_options === question.correct_question_id
+                                            )?.answer_option
+                                        }</span>
+                                    </p>
 
-                                <div className="border-t-2 pt-5 flex justify-center gap-10">
-                                    <Button
-                                        className="w-full bg-blue-500 hover:bg-blue-600"
-                                        onClick={() => {
-                                            loadDataFromUpdate(question);
-                                            setIfNewQuestion(question.id_question);
-                                        }}
-                                    >
-                                        <Edit /> Editar
-                                    </Button>
-                                    <Button
-                                        className="w-full bg-orange-500 hover:bg-orange-600"
-                                        onClick={() => deleteQuestion(question.id_question)}
-                                    >
-                                        <Trash />Excluir
-                                    </Button>
-                                </div>
-                            </Card>
-                        )) || (
-                                <p className="text-muted-foreground text-center py-8">
-                                    Nenhuma questão cadastrada ainda. Adicione a primeira questão acima!
-                                </p>
-                            )}
-                    </div>
-                </Card>
+                                    <div className="border-t-2 pt-5 flex justify-center gap-10">
+                                        <Button
+                                            className="w-full bg-blue-500 hover:bg-blue-600"
+                                            onClick={() => {
+                                                loadDataFromUpdate(question);
+                                                setIfNewQuestion(question.id_question);
+                                            }}
+                                        >
+                                            <Edit /> Editar
+                                        </Button>
+                                        <Button
+                                            className="w-full bg-orange-500 hover:bg-orange-600"
+                                            onClick={() => deleteQuestion(question.id_question)}
+                                        >
+                                            <Trash />Excluir
+                                        </Button>
+                                    </div>
+                                </Card>
+                            )) || (
+                                    <p className="text-muted-foreground text-center py-8">
+                                        Nenhuma questão cadastrada ainda. Adicione a primeira questão acima!
+                                    </p>
+                                )}
+                        </div>
+                    </Card>
+                )}
             </div>
         </TabsContent>
     );
