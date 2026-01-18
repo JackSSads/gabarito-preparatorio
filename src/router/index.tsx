@@ -8,6 +8,7 @@ import {
     Ranking,
     Results,
     Login,
+    Register,
     QuizConfigPage
 } from "@/pages";
 
@@ -17,6 +18,7 @@ export const AppRouter = () => {
             <Route path="/" element={<Index />} />
             
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             
             <Route path="/quiz-config" element={<QuizConfigPage />} />
             <Route path="/quiz" element={<Quiz />} />
