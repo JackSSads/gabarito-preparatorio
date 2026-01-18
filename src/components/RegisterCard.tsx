@@ -209,6 +209,15 @@ export const RegisterCard = () => {
 
                         </form>
                     </Form>
+                    <div className="flex justify-center mt-4">
+                        <p>Já possui uma conta? <span
+                            onClick={() => navigate("/login")}
+                            className="text-blue-700 underline cursor-pointer"
+                        >
+                            Acessar minha conta
+                        </span>
+                        </p>
+                    </div>
                 </CardContent>
             </Card>
         </div>

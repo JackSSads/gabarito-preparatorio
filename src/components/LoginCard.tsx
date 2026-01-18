@@ -127,6 +127,15 @@ export const LoginCard = () => {
 
             </form>
           </Form>
+          <div className="flex justify-center mt-4">
+            <p>Ainda não tem uma conta? <span
+              onClick={() => navigate("/register")}
+              className="text-blue-700 underline cursor-pointer"
+            >
+              Criar minha conta
+            </span>
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
