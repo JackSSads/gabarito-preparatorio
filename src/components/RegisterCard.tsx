@@ -24,9 +24,9 @@ import { AuthService } from "@/services/AuthService/AuthService";
 import { IRegister } from "@/types/auth";
 
 const loginSchema = z.object({
-    name: z.string(),
-    email: z.string().email("E-mail inválido"),
-    phone: z.string().length(11, "Digite o número de telefone sem espaço, parênteses ou travessão. EX.: 00123456789"),
+    name: z.string().min(10, "Esse campo deve conter no mínimo 10 caracteres."),
+    email: z.string().email("E-mail inválido."),
+    phone: z.string().length(11, "Digite o número de telefone sem espaço, parênteses ou travessão. EX.: 00123456789."),
     password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres."),
     conf_password: z.string().min(8, "A senha deve ter no mínimo 8 caracteres.")
 });
