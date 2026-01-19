@@ -124,7 +124,7 @@ export const Index = () => {
           </p>
           <Button
             size="lg"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/register")}
             className="bg-secondary text-secondary-foreground hover:bg-secondary/90 h-14 px-8 text-lg font-semibold shadow-lg"
           >
             Iniciar Meu Primeiro Quiz
