@@ -38,12 +38,11 @@ const getAll = async ({
 };
 
 const insert = async ({
-    correct_answer, difficulty, options, question, subject
+    correct_answer, difficulty, options, question, text, subject
 }: IReqQuestionPost): Promise<IResMessage> => {
     try {
 
-        const payload = { correct_answer, difficulty, options, question, subject };
-
+        const payload = { correct_answer, difficulty, options, question, text, subject };
         const res = await API.post(endpoint, payload);
         return res.data;
     } catch (error) {
@@ -73,12 +72,11 @@ const delete_by_id = async (id_question: string): Promise<IResMessage> => {
 };
 
 const updateQuestion = async ({
-    id_question, correct_answer, difficulty, options, question, subject
+    id_question, correct_answer, difficulty, options, question, text, subject
 }: IReqQuestionsPut): Promise<IResMessage> => {
     try {
 
-        const payload = { correct_answer, difficulty, options, question, subject };
-
+        const payload = { correct_answer, difficulty, options, question, text, subject };
         const res = await API.put(`${endpoint}/${id_question}`, payload);
         return res.data;
     } catch (error) {

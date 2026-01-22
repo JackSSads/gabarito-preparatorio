@@ -9,6 +9,7 @@ export interface IResOptions {
 export interface IResQuestions {
   id_question: string;
   question: string;
+  text?: string;
   options: IResOptions[];
   correct_question_id: string;
   difficulty: TDifficulty;
@@ -17,6 +18,7 @@ export interface IResQuestions {
 
 export interface INewQuestion {
   question: string;
+  text?: string;
   options: string[];
   correct_answer: number;
   difficulty: TDifficulty;
@@ -37,6 +39,7 @@ export interface IReqQuestionPost extends INewQuestion { };
 export interface IReqQuestionsPut {
   id_question: string;
   question: string;
+  text?: string;
   options: IResOptions[];
   correct_answer: string;
   difficulty: TDifficulty;

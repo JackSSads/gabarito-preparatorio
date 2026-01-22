@@ -50,7 +50,7 @@ export const Ranking = () => {
           </div>
 
           <div className="grid gap-4">
-            {ranking.map((entry) => (
+            {!ranking.length ? ranking.map((entry) => (
               <Card
                 key={entry.position}
                 className={`p-6 shadow-md transition-all hover:shadow-lg ${entry.position <= 3 ? 'border-2 border-primary/30 bg-gradient-to-r from-primary/5 to-transparent' : ''
@@ -75,7 +75,51 @@ export const Ranking = () => {
                   </div>
                 </div>
               </Card>
-            ))}
+            )) : (
+              <div className="flex flex-col gap-5 animate-pulse">
+                <Card className={"p-6 shadow-md transition-all hover:shadow-lg"} >
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-muted"></div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-foreground mb-1"></h3>
+                      <div className="flex gap-2">
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className={"p-6 shadow-md transition-all hover:shadow-lg"} >
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-muted"></div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-foreground mb-1"></h3>
+                      <div className="flex gap-2">
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className={"p-6 shadow-md transition-all hover:shadow-lg"} >
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-muted"></div>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-foreground mb-1"></h3>
+                      <div className="flex gap-2">
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                        <div className="bg-gray-100 rounded-md h-10 w-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+            )}
           </div>
         </div>
       </div>

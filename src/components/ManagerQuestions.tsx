@@ -27,6 +27,7 @@ export const ManagerQuestions = () => {
 
     const [newQuestion, setNewQuestion] = useState<INewQuestion>({
         question: "",
+        text: "",
         options: ["", "", "", "", ""],
         correct_answer: 0,
         difficulty: "EASY",
@@ -36,6 +37,7 @@ export const ManagerQuestions = () => {
     const [updateQuestion, setUpdateQuestion] = useState<IReqQuestionsPut>({
         id_question: "",
         question: "",
+        text: "",
         options: [
             { id_question_options: "", answer_option: "" },
             { id_question_options: "", answer_option: "" },
@@ -70,6 +72,7 @@ export const ManagerQuestions = () => {
     const clearStates = () => {
         setNewQuestion({
             question: "",
+            text: "",
             options: ["", "", "", "", ""],
             correct_answer: 0,
             difficulty: "EASY",
@@ -79,6 +82,7 @@ export const ManagerQuestions = () => {
         setUpdateQuestion({
             id_question: "",
             question: "",
+            text: "",
             options: [
                 { id_question_options: "", answer_option: "" },
                 { id_question_options: "", answer_option: "" },
@@ -233,6 +237,18 @@ export const ManagerQuestions = () => {
                                 placeholder="Digite a questão..."
                                 value={newQuestion.question}
                                 onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })}
+                                className="mt-2 min-h-[100px]"
+                            />
+                        </div>
+
+                        {/* Texto Auxiliar */}
+                        <div>
+                            <Label htmlFor="question">Texto Auxiliar (opcional)</Label>
+                            <Textarea
+                                id="question"
+                                placeholder="Digite o texto auxiliar..."
+                                value={newQuestion.text}
+                                onChange={(e) => setNewQuestion({ ...newQuestion, text: e.target.value })}
                                 className="mt-2 min-h-[100px]"
                             />
                         </div>
@@ -412,6 +428,8 @@ export const ManagerQuestions = () => {
                                     </p>
 
                                     <p className="font-semibold text-gray-700">{question.question}</p>
+
+                                    <p className="text-gray-600 ">{question?.text}</p>
 
                                     <div className="flex flex-col">
                                         <ul>
