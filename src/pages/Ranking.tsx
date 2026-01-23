@@ -50,7 +50,7 @@ export const Ranking = () => {
           </div>
 
           <div className="grid gap-4">
-            {!ranking.length ? ranking.map((entry) => (
+            {ranking.length ? ranking.map((entry) => (
               <Card
                 key={entry.position}
                 className={`p-6 shadow-md transition-all hover:shadow-lg ${entry.position <= 3 ? 'border-2 border-primary/30 bg-gradient-to-r from-primary/5 to-transparent' : ''
