@@ -74,6 +74,15 @@ export const ManagerUser = () => {
     }, [filter]);
 
     const postUser = useCallback(() => {
+        if (!post_user.name || !post_user.email || !post_user.password || !post_user.phone) {
+            toast({
+                title: "Erro",
+                description: "Preencha todos os campos obrigatórios",
+                variant: "destructive"
+            });
+            return;
+        };
+
         UserService.create(post_user)
             .then((result) => {
                 toast({
