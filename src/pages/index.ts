@@ -7,3 +7,4 @@ export { Results } from "./Results";
 export { Login } from "./Login.tsx";
 export { Register } from "./Register.tsx";
 export { QuizConfigPage } from "./QuizConfigPage";
+export { AccessExpired } from "./AccessExpired";

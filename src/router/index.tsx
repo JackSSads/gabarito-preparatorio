@@ -9,7 +9,8 @@ import {
     Results,
     Login,
     Register,
-    QuizConfigPage
+    QuizConfigPage,
+    AccessExpired
 } from "@/pages";
 
 export const AppRouter = () => {
@@ -19,6 +20,7 @@ export const AppRouter = () => {
             
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/access-expired" element={<AccessExpired />} />
             
             <Route path="/quiz-config" element={<QuizConfigPage />} />
             <Route path="/quiz" element={<Quiz />} />
