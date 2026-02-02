@@ -172,7 +172,7 @@ export const Quiz = () => {
                   </span>
 
                 {questions?.[current_question].text && (
-                  <p className="mb-4 font-semibold text-foreground leading-relaxed">
+                  <p className="mb-4 italic">
                     "{questions?.[current_question].text}"
                   </p>
                 )}
