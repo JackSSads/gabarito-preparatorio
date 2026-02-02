@@ -1,6 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Edit, Users } from "lucide-react";
-import { ManagerQuestions } from "@/components/ManagerQuestions";
+import { ManagerQuestions } from "@/components/ManagerQuestions/ManagerQuestions";
 import { ManagerUser } from "@/components/ManagerUser";
 
 export const Admin = () => {

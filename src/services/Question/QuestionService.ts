@@ -90,9 +90,38 @@ const updateQuestion = async ({
     };
 };
 
+const insertMulti = async (questions: { text: string }): Promise<IResMessage> => {
+    try {
+
+        let parsed: any;
+
+        try {
+            parsed = JSON.parse(questions.text);
+        } catch {
+            throw new Error("Formato JSON inválido");
+        };
+
+        const payload = {
+            list_questions: Array.isArray(parsed) ? parsed : [parsed],
+        };
+
+        const res = await API.post(`${endpoint}/massive_insert`, payload);
+        return res.data;
+    } catch (error) {
+        if (error.response) {
+            throw new Error(error.response.data.message || "Erro na resposta da API");
+        } else if (error.request) {
+            throw new Error("Sem resposta do servidor");
+        } else {
+            throw new Error(error.message);
+        };
+    };
+};
+
 export const QuestionService = {
     getAll,
     insert,
     delete_by_id,
-    updateQuestion
+    updateQuestion,
+    insertMulti
 };

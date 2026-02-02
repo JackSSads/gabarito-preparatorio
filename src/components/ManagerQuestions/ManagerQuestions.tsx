@@ -5,11 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Edit, Trash, Filter } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 
 import { useToast } from "@/hooks/use-toast";
 import { useDebounce } from "@/hooks/use-debounce";
+
+import { Single } from "@/components/ManagerQuestions/Single";
+import { Multi } from "@/components/ManagerQuestions/Multi";
 
 import {
     INewQuestion,
@@ -21,6 +24,7 @@ import {
 } from "@/types/questions";
 
 import { QuestionService } from "@/services/Question/QuestionService";
+import { set } from "date-fns";
 
 export const ManagerQuestions = () => {
     const { toast } = useToast();
@@ -33,6 +37,8 @@ export const ManagerQuestions = () => {
         difficulty: "EASY",
         subject: "POR"
     });
+
+    const [isSingleOrMulti, setIsSingleOrMulti] = useState<"single" | "multi">("single");
 
     const [updateQuestion, setUpdateQuestion] = useState<IReqQuestionsPut>({
         id_question: "",
@@ -93,39 +99,6 @@ export const ManagerQuestions = () => {
             difficulty: "EASY",
             subject: "0"
         });
-
-    };
-
-    const createQuestion = () => {
-        if (!newQuestion.question || newQuestion.options.some(opt => !opt)) {
-            toast({
-                title: "Erro",
-                description: "Preencha todos os campos da questão",
-                variant: "destructive"
-            });
-            return;
-        };
-
-        QuestionService.insert({
-            question: newQuestion.question,
-            options: newQuestion.options,
-            correct_answer: newQuestion.correct_answer,
-            difficulty: newQuestion.difficulty,
-            subject: newQuestion.subject
-        })
-            .then((result) => {
-                toast({
-                    title: "Questão cadastrada",
-                    description: result.message
-                });
-                clearStates();
-            })
-            .catch((error) => {
-                toast({
-                    title: "Erro",
-                    description: error.message
-                });
-            });
     };
 
     const getAllQuestion = useCallback(() => {
@@ -159,44 +132,11 @@ export const ManagerQuestions = () => {
             });
     };
 
-    const upQuestion = useCallback((ifNewQuestion: string) => {
-
-        const op = updateQuestion.options.map((op, index) => ({
-            id_question_options: op.id_question_options,
-            answer_option: newQuestion.options[index]
-        }));
-
-        const payload = {
-            question: newQuestion.question,
-            options: op,
-            correct_answer: op[newQuestion.correct_answer].id_question_options,
-            difficulty: newQuestion.difficulty,
-            subject: newQuestion.subject
-        };
-
-        QuestionService.updateQuestion({ id_question: ifNewQuestion, ...payload })
-            .then((result) => {
-                toast({
-                    title: "Questão atualizada",
-                    description: result.message
-                });
-
-                clearStates();
-                setIfNewQuestion(null);
-                getAllQuestion();
-            })
-            .catch((error) => {
-                toast({
-                    title: "Erro",
-                    description: error.message
-                });
-            });
-    }, [newQuestion]);
-
     const loadDataFromUpdate = (question: IResQuestions) => {
-        setIfNewQuestion(null);
+        setIfNewQuestion(question.id_question);
         setUpdateQuestion({
             id_question: question.id_question,
+            text: question.text,
             question: question.question,
             options: question.options,
             correct_answer: question.correct_question_id,
@@ -205,6 +145,7 @@ export const ManagerQuestions = () => {
         });
 
         setNewQuestion({
+            text: question.text,
             question: question.question,
             options: question.options.map((opt) => opt.answer_option),
             correct_answer: question.options.findIndex(opt =>
@@ -228,114 +169,38 @@ export const ManagerQuestions = () => {
                         Nova Questão
                     </h2>
 
-                    {/* Cadastro */}
-                    <div className="space-y-6">
-                        <div>
-                            <Label htmlFor="question">Pergunta</Label>
-                            <Textarea
-                                id="question"
-                                placeholder="Digite a questão..."
-                                value={newQuestion.question}
-                                onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })}
-                                className="mt-2 min-h-[100px]"
+                    <RadioGroup
+                        className="flex pb-5 justify-between"
+                        value={isSingleOrMulti}
+                        onValueChange={(value) => setIsSingleOrMulti(value as 'single' | 'multi')}
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="single" id="single" />
+                            <Label htmlFor="single">Quentão Única</Label>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="multi" id="multi" />
+                            <Label htmlFor="multi">Multiquestões</Label>
+                        </div>
+                    </RadioGroup>
+
+                    {
+                        isSingleOrMulti === 'single' ? (
+                            <Single
+                                clearStates={clearStates}
+                                getAllQuestion={getAllQuestion}
+                                newQuestion={newQuestion}
+                                setNewQuestion={setNewQuestion}
+                                updateQuestion={updateQuestion}
+                                setUpdateQuestion={setUpdateQuestion}
+                                ifNewQuestion={ifNewQuestion}
+                                setIfNewQuestion={setIfNewQuestion}
                             />
-                        </div>
-
-                        {/* Texto Auxiliar */}
-                        <div>
-                            <Label htmlFor="question">Texto Auxiliar (opcional)</Label>
-                            <Textarea
-                                id="question"
-                                placeholder="Digite o texto auxiliar..."
-                                value={newQuestion.text}
-                                onChange={(e) => setNewQuestion({ ...newQuestion, text: e.target.value })}
-                                className="mt-2 min-h-[100px]"
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <Label htmlFor="difficulty">Nível de Dificuldade</Label>
-                                <Select
-                                    value={newQuestion.difficulty}
-                                    onValueChange={(value) => setNewQuestion({ ...newQuestion, difficulty: value as TDifficulty })}
-                                >
-                                    <SelectTrigger className="mt-2">
-                                        <SelectValue placeholder="Selecione o nível da questão" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="EASY">Fácil</SelectItem>
-                                        <SelectItem value="MEDIUM">Médio</SelectItem>
-                                        <SelectItem value="HARD">Avançado</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div>
-                                <Label htmlFor="subject">Tema</Label>
-                                <Select
-                                    value={newQuestion.subject}
-                                    onValueChange={(value) => setNewQuestion({ ...newQuestion, subject: value as TSubject })}
-                                >
-                                    <SelectTrigger className="mt-2">
-                                        <SelectValue placeholder="Selecione o tema" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="POR">Português</SelectItem>
-                                        <SelectItem value="MAT">Matemática</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div>
-                                <Label htmlFor="correct">Resposta Correta</Label>
-                                <Select
-                                    value={newQuestion.correct_answer.toString()}
-                                    onValueChange={(value) => setNewQuestion({ ...newQuestion, correct_answer: parseInt(value) })}
-                                >
-                                    <SelectTrigger className="mt-2">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {newQuestion.options.map((_, index) => (
-                                            <SelectItem key={index} value={index.toString()}>
-                                                Alternativa {index + 1}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            <Label>Alternativas (5 opções)</Label>
-                            {newQuestion.options.map((option, index) => (
-                                <div key={index}>
-                                    <Input
-                                        placeholder={`Alternativa ${index + 1}`}
-                                        value={option}
-                                        onChange={(e) => {
-                                            const newOptions = [...newQuestion.options];
-                                            newOptions[index] = e.target.value;
-                                            setNewQuestion({ ...newQuestion, options: newOptions });
-                                        }}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-
-                        <Button
-                            onClick={() =>
-                                ifNewQuestion === null
-                                    ? createQuestion()
-                                    : upQuestion(ifNewQuestion as string)
-                            }
-                            className="w-full"
-                            size="lg">
-                            <Plus className="mr-2 w-5 h-5" />
-                            {!ifNewQuestion ? "Adicionar Questão" : "Atualizar Questão"}
-                        </Button>
-                    </div>
+                        ) : (
+                            <Multi />
+                        )
+                    }
                 </Card>
 
                 <Card className="p-8 shadow-lg">
@@ -427,9 +292,11 @@ export const ManagerQuestions = () => {
                                         }
                                     </p>
 
-                                    <p className="font-semibold text-gray-700">{question.question}</p>
+                                    {question.text && (
+                                        <p className="text-gray-600 italic">"{question?.text}"</p>
+                                    )}
 
-                                    <p className="text-gray-600 ">{question?.text}</p>
+                                    <p className="font-semibold text-gray-700">{question.question}</p>
 
                                     <div className="flex flex-col">
                                         <ul>
@@ -452,7 +319,7 @@ export const ManagerQuestions = () => {
                                             className="w-full bg-blue-500 hover:bg-blue-600"
                                             onClick={() => {
                                                 loadDataFromUpdate(question);
-                                                setIfNewQuestion(question.id_question);
+                                                setIsSingleOrMulti("single");
                                             }}
                                         >
                                             <Edit /> Editar
