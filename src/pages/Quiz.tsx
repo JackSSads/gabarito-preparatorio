@@ -77,8 +77,6 @@ export const Quiz = () => {
       return;
     };
 
-    /* console.log("Text", questions[36]) */
-    
     const timer = questions?.length ? setTimeout(() => {
       set_time_left((prev) => prev - 1);
       set_response_time((prev) => prev + 1);
@@ -171,11 +169,11 @@ export const Quiz = () => {
                       questions?.[current_question].difficulty === 'MEDIUM' ? 'Médio' : 'Avançado'}
                   </span>
 
-                {questions?.[current_question].text && (
-                  <p className="mb-4 italic">
-                    "{questions?.[current_question].text}"
-                  </p>
-                )}
+                  {questions?.[current_question].text && (
+                    <p className="mb-4 italic">
+                      "{questions?.[current_question].text}"
+                    </p>
+                  )}
 
                   <h2 className="text-xl font-semibold text-foreground leading-relaxed">
                     {questions?.[current_question].question}
